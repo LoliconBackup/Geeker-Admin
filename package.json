@@ -1,19 +1,19 @@
 {
-  "name": "geeker-admin",
+  "name": "misoda-admin",
   "private": true,
   "version": "1.2.0",
   "type": "module",
-  "description": "geeker-admin open source management system",
+  "description": "misoda-admin open source management system",
   "author": {
-    "name": "Geeker",
-    "email": "848130454@qq.com",
-    "url": "https://github.com/HalseySpicy"
+    "name": "kerronex",
+    "email": "bfchengnuo@gmail.com",
+    "url": "https://github.com/bfchengnuo"
   },
   "license": "MIT",
-  "homepage": "https://github.com/HalseySpicy/Geeker-Admin",
+  "homepage": "https://github.com/bfchengnuo/misoda-ui",
   "repository": {
     "type": "git",
-    "url": "git@github.com:HalseySpicy/Geeker-Admin.git"
+    "url": "git@github.com:HalseySpicy/misoda-ui.git"
   },
   "bugs": {
     "url": "https://github.com/HalseySpicy/Geeker-Admin/issues"

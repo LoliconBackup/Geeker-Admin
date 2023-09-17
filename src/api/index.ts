@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequ
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/components/Loading/fullScreen";
 import { LOGIN_URL } from "@/config";
 import { ElMessage } from "element-plus";
-import { ResultData } from "@/api/interface";
+import { ResultData, Login } from "@/api/interface";
 import { ResultEnum } from "@/enums/httpEnum";
 import { checkStatus } from "./helper/checkStatus";
 import { useUserStore } from "@/stores/modules/user";
@@ -38,8 +38,8 @@ class RequestHttp {
         // 当前请求不需要显示 loading，在 api 服务中通过指定的第三个参数: { loading: false } 来控制
         config.loading ?? (config.loading = true);
         config.loading && showFullScreenLoading();
-        if (config.headers && typeof config.headers.set === "function") {
-          config.headers.set("x-access-token", userStore.token);
+        if (config.headers && !config.headers.Authorization && typeof config.headers.set === "function") {
+          config.headers.set("Authorization", "Bearer " + userStore.token);
         }
         return config;
       },
@@ -78,6 +78,10 @@ class RequestHttp {
         // 请求超时 && 网络错误单独判断，没有 response
         if (error.message.indexOf("timeout") !== -1) ElMessage.error("请求超时！请您稍后重试");
         if (error.message.indexOf("Network Error") !== -1) ElMessage.error("网络错误！请您稍后重试");
+        if (response?.status == 401) {
+          ElMessage.error(response.data.msg);
+          return;
+        }
         // 根据服务器响应的错误状态码，做不同的处理
         if (response) checkStatus(response.status);
         // 服务器结果都没有返回(可能服务器错误可能客户端断网)，断网处理:可以跳转到断网页面
@@ -94,6 +98,9 @@ class RequestHttp {
     return this.service.get(url, { params, ..._object });
   }
   post<T>(url: string, params?: object | string, _object = {}): Promise<ResultData<T>> {
+    return this.service.post(url, params, _object);
+  }
+  postLogin(url: string, params?: object | string, _object = {}): Promise<Login.ResLogin> {
     return this.service.post(url, params, _object);
   }
   put<T>(url: string, params?: object, _object = {}): Promise<ResultData<T>> {

@@ -9,6 +9,11 @@ export interface ResultData<T = any> extends Result {
   data: T;
 }
 
+// 登录返回
+export interface ResultLoginData<T = any> {
+  data: T;
+}
+
 // 分页响应参数
 export interface ResPage<T> {
   list: T[];
@@ -35,9 +40,25 @@ export namespace Login {
   export interface ReqLoginForm {
     username: string;
     password: string;
+    grant_type: string;
+    scope: string;
   }
   export interface ResLogin {
     access_token: string;
+    sub: string;
+    clientId: string;
+    iss: string;
+    token_type: string;
+    refresh_token: string;
+    aud: Array<string>;
+    license: string;
+    nbf: number;
+    user_info: any;
+    scope: Array<string>;
+    exp: number;
+    expires_in: number;
+    iat: number;
+    jti: string;
   }
   export interface ResAuthButtons {
     [key: string]: string[];
